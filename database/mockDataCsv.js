@@ -1,4 +1,5 @@
 const faker = require('faker');
+const mockCity = require('./mockCity.js');
 //const db = require('./index.js');
 
 let titleRandom = ['Perfectly located', 'Light & spacious garden flat', 'Private Modern Guesthouse', 'Ocean View Hideaway', 'Perfect Haven by Golden Gate', 'Private Backyard Cottage', 'Sunny Room Heart of', 'Luxury Gold Coast', 'Central Surfers Studio OceanView', 'Broken Head Bodhi Treehouse', 'Mountain tiny house', 'Blue Mountains Cottage', 'The Copa Cabana', 'The Tree House', 'Stroll Around Victoria Park', 'Entire Home with Opera House views', 'Luxury Apartment in the heart of', 'Stylish inner-city home', 'Little Paradise', 'Stunning River View' ]; 
@@ -13,7 +14,7 @@ function generateListing() {
     let titleRandomArray = titleRandom[Math.floor(Math.random()*titleRandom.length)];
     let roomInfoRandomArray = roomInfoRandom[Math.floor(Math.random()*roomInfoRandom.length)];
     let hostImage = Math.floor(Math.random()* 30) + 1;
-    //console.log('HOSTIMAGE: ',hostImage);
+
     function numberOfGuests() {
         if (roomInfoRandomArray === 'Private room') {
             return 2;
@@ -46,11 +47,12 @@ function generateListing() {
         }
     }
     var bedrooms = numberOfBedrooms();
-    let city = faker.address.city();
+    let index = Math.floor(Math.random() * 1000) + 1;
+    let city = mockCity[index];
     let listing = {
         city: city,
         title: `${titleRandomArray} ${city}`,
-        hostImage:`https://sdc-airdnd.s3-us-west-2.amazonaws.com/host${hostImage}.jpg`,
+        hostImage:`https://sdc-airdnd.s3-us-west-2.amazonaws.com/host${index}.jpg`,
         roomInfo: roomInfoRandomArray,
         numberOfGuests: numberOfGuests(),
         numberOfBedrooms: bedrooms,
@@ -81,6 +83,7 @@ function generateListing() {
             bedroom: bedrooms
         }
     }
+
     return listing;
 }
 
@@ -93,16 +96,6 @@ function generateListings() {
     }
     return listings;
 }
-
-// var dbData = generateListings();
-// console.log(dbData);
-// db.insertMany(dbData, function(error, docs) {
-//     if (error) {
-//         console.log('Error Seeding..');
-//     } else {
-//         console.log('Seeding Success!');
-//     }
-// })
 
 module.exports = generateListing;
 

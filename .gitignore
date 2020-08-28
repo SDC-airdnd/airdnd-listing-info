@@ -1,1 +1,4 @@
 node_modules
+/photos/
+/database/mockData.json
+/database/mockData.csv
