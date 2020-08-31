@@ -1,5 +1,5 @@
 const faker = require('faker');
-const mockCity = require('./mockCity.js');
+const mockCities = require('../mockCities.js');
 //const db = require('./index.js');
 
 let titleRandom = ['Perfectly located', 'Light & spacious garden flat', 'Private Modern Guesthouse', 'Ocean View Hideaway', 'Perfect Haven by Golden Gate', 'Private Backyard Cottage', 'Sunny Room Heart of', 'Luxury Gold Coast', 'Central Surfers Studio OceanView', 'Broken Head Bodhi Treehouse', 'Mountain tiny house', 'Blue Mountains Cottage', 'The Copa Cabana', 'The Tree House', 'Stroll Around Victoria Park', 'Entire Home with Opera House views', 'Luxury Apartment in the heart of', 'Stylish inner-city home', 'Little Paradise', 'Stunning River View' ]; 
@@ -13,7 +13,7 @@ function booleanGenerator() {
 function generateListing() {
     let titleRandomArray = titleRandom[Math.floor(Math.random()*titleRandom.length)];
     let roomInfoRandomArray = roomInfoRandom[Math.floor(Math.random()*roomInfoRandom.length)];
-    let hostImage = Math.floor(Math.random()* 30) + 1;
+    let hostImage = Math.floor(Math.random() * 1000) + 1;
 
     function numberOfGuests() {
         if (roomInfoRandomArray === 'Private room') {
@@ -48,11 +48,11 @@ function generateListing() {
     }
     var bedrooms = numberOfBedrooms();
     let index = Math.floor(Math.random() * 1000) + 1;
-    let city = mockCity[index];
+    let city = mockCities[index];
     let listing = {
-        city: city,
+        cityId: index,
         title: `${titleRandomArray} ${city}`,
-        hostImage:`https://sdc-airdnd.s3-us-west-2.amazonaws.com/host${index}.jpg`,
+        hostImageId: hostImage,
         roomInfo: roomInfoRandomArray,
         numberOfGuests: numberOfGuests(),
         numberOfBedrooms: bedrooms,

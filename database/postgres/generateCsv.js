@@ -1,8 +1,11 @@
-const generateListing = require('../mockDataCsv.js');
+const generateListing = require('./mockDataCsv.js');
 const fs = require('fs');
+const path = require('path');
 const jsonexport = require('jsonexport');
 
-const writeStream = fs.createWriteStream('../mockData.csv');
+const dataPath = path.join(__dirname, '../datasets/mockData.csv')
+
+const writeStream = fs.createWriteStream(dataPath);
 
 writeStream.on("open", () => {
     console.log("Stream opened");
@@ -10,21 +13,27 @@ writeStream.on("open", () => {
 writeStream.on("ready", () => {
     console.log("Stream ready");
 });
-writeStream.on("pipe", src => {
-    console.log("Pipe on");
-});
-writeStream.on("unpipe", src => {
-    console.log("Pipe off");
-});
 writeStream.on("finish", () => {
     console.log("Stream finished");
 });
 
 const repeatTenMil = (writer, encoding, callback) => {
     let i = 10000000;
-    let id = 0;
+    let id = 1;
 
-    const write = () => {
+    const writeFirstRecord = () => { // needs to write first record to set up headers
+        let listing = generateListing();
+        listing.id = 1;
+        listing = [listing];
+
+        jsonexport(listing, (error, csv) => {
+            if (error) return console.error(error);
+
+            writer.write(csv, encoding);
+        })
+    }
+
+    const write = () => { // write the rest of the records
         let flow = true;
 
         do {
@@ -38,10 +47,14 @@ const repeatTenMil = (writer, encoding, callback) => {
             jsonexport(listing, (error, csv) => {
                 if (error) return console.error(error);
 
+                // remove headers from each listing and pass on only data
+                const split = csv.split('\n');
+                const data = "\n" + split[1];
+
                 if (i === 0) {
-                    writer.write(csv, encoding, callback);
+                    writer.write(data, encoding, callback);
                 } else {
-                    flow = writer.write(csv, encoding);
+                    flow = writer.write(data, encoding);
                 }
             })
 
@@ -52,6 +65,7 @@ const repeatTenMil = (writer, encoding, callback) => {
         }
     };
 
+    writeFirstRecord();
     write();
 }
 
