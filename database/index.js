@@ -1,27 +1,9 @@
-const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/airbnbInfo', { useNewUrlParser: true });
+const { Database } = require('arangojs');
 
-let dbSchema = mongoose.Schema({
-    id: Number,
-    city: String,
-    title: String,
-    hostImage: String,
-    roomInfo: String,
-    numberOfGuests: Number,
-    numberOfBedrooms: Number,
-    numberOfBeds: Number,
-    numberOfBaths: Number,
-    isSuperhost: Boolean,
-    isGreatLocation: Boolean,
-    isSparklingClean: Boolean,
-    isGreatCheckIn: Boolean,
-    isSelfCheckIn: Boolean,
-    description: String,
-    amenities: Object,
-    sleepingArrangements: Object,
-});
+// create handle
+const db = new Database();
 
-let db = mongoose.model('Listing', dbSchema);
-
+// switch to _system db
+db.useDatabase('_system');
 
 module.exports = db;
