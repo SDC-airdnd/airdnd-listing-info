@@ -12,45 +12,19 @@ app.use(express.static(__dirname + '/../client/dist'));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-app.get('/listings/:id', (req, res) => {
+app.get('/listings/:id', async (req, res) => {
   const { id } = req.params;
-  const listings = db.collection('listingInfo');
+  const query = aql`FOR listing in listingInfo FILTER listing.id == ${parseInt(id)} RETURN listing`;
 
-  
+  try {
+    const cursor = await db.query(query);
+    const result = await cursor.all();
 
-  db.query(aql`
-    FOR listing in ${listings}
-    FILTER listing.id == ${id}
-    RETURN listing
-  `)
-    .then((cursor) => {
-      //console.log('cursor: ', cursor);
-  
-      cursor.forEach((listing) => {
-        res.status(200).send(listing);
-      })
-      
-    })
-    .catch((error) => {
-      res.status(500).send(error.message);
-    })
-
-  // try {
-  //   const result = await db.query(aql);
-
-  //   console.log('listing: ', result);
-  //   res.status(200).send(result);
-  // } catch (error) {
-  //   res.status(500).send(error.message);
-  // }
-
-  // db.findOne({id: req.params.id}).exec((err, docs) => {
-  //     if (err) {
-  //       res.status(500).send();
-  //     } else {
-  //       res.status(200).send(docs);
-  //     }
-  //   })
+    // result turns an array, pull first json out of array to return
+    res.status(200).send(result[0]);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
 })
 
 
