@@ -1,6 +1,7 @@
+require('newrelic');
 const express = require('express');
 const app = express(); 
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 const db = require('../database/index.js');
 const { aql } = require('arangojs');
 const cors = require('cors');
