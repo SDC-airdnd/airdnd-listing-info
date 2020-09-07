@@ -1,19 +1,16 @@
-const generateListing = require('../mockData.js');
+const generateListing = require('./mockDataJson.js');
 const fs = require('fs');
+const path = require('path');
 
-const writeStream = fs.createWriteStream('./mockData.json');
+const dataPath = path.join(__dirname, '../datasets/mockData.jsonl');
+
+const writeStream = fs.createWriteStream(dataPath);
 
 writeStream.on("open", () => {
     console.log("Stream opened");
 });
 writeStream.on("ready", () => {
     console.log("Stream ready");
-});
-writeStream.on("pipe", src => {
-    console.log("Pipe on");
-});
-writeStream.on("unpipe", src => {
-    console.log("Pipe off");
 });
 writeStream.on("finish", () => {
     console.log("Stream finished");
@@ -32,7 +29,7 @@ const repeatTenMil = (writer, encoding, callback) => {
 
             let listing = generateListing();
             listing.id = id;
-            listing = JSON.stringify(listing) + ',';
+            listing = JSON.stringify(listing) + '\n';
 
             if (i === 0) {
                 writer.write(listing, encoding, callback);
