@@ -11,7 +11,7 @@
 ## <a id="how_to_use">How To Use</a>
 ```
 # clone this repository
-$ git clone https://github.com/hacker-home/Airbnb-info.git
+$ git clone https://github.com/SDC-airdnd/airdnd-listing-info
 
 # install dependencies
 $ npm install
@@ -29,8 +29,5 @@ $ npm run react-dev
 * [Git](https://git-scm.com/)
 
 ## <a id="related_projects">Related Projects</a>
-* https://github.com/hacker-home/Airbnb-photos
-* https://github.com/hacker-home/Airbnb-booking
-* https://github.com/hacker-home/Airbnb-reviews
-* https://github.com/hacker-home/Airbnb-more-homes
-
+* https://github.com/SDC-airdnd/OVERNIGHT_Bookings
+* https://github.com/SDC-airdnd/airdnd-reviews
