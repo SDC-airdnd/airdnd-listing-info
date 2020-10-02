@@ -28,6 +28,9 @@ app.get('/listings/:id', async (req, res) => {
   }
 })
 
+app.get('/loaderio-0f8851a0d3a1211b7ffaa838653c6052', (req, res) => {
+  res.sendFile('./loaderio-0f8851a0d3a1211b7ffaa838653c6052.txt', { root: __dirname });
+})
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
